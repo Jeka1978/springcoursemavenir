@@ -5,10 +5,7 @@ import org.reflections.Reflections;
 
 import javax.annotation.PostConstruct;
 import java.lang.invoke.SerializedLambda;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -51,6 +48,21 @@ public class ObjectFactory {
 
         runInitMethods(type, t);
 
+        if (type.isAnnotationPresent(Benchmark.class)) {
+            return (T) Proxy.newProxyInstance(type.getClassLoader(), type.getInterfaces(), new InvocationHandler() {
+                @Override
+                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                    System.out.println("********* BENCHMARK started for method "+method.getName()+" ***********");
+                    long start = System.nanoTime();
+                    Object retVal = method.invoke(t, args);
+                    long end = System.nanoTime();
+                    System.out.println(end-start);
+                    System.out.println("********* BENCHMARK ended for method "+method.getName()+" **************");
+                    return retVal;
+                }
+            });
+        }
+
         return t;
 
     }
@@ -70,7 +82,15 @@ public class ObjectFactory {
 
     private <T> Class<T> resolveImpl(Class<T> type) {
         if (type.isInterface()) {
-            type = config.getImplClass(type);
+            Class<T> implClass = config.getImplClass(type);
+            if (implClass == null) {
+                Set<Class<? extends T>> set = scanner.getSubTypesOf(type);
+                if (set.size() != 1) {
+                    throw new RuntimeException(type + " has 0 or more than one impl, please update your config");
+                }
+                implClass = (Class<T>) set.iterator().next();
+            }
+            type = implClass;
         }
         return type;
     }
