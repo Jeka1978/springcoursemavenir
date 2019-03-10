@@ -5,6 +5,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
+    <context:property-placeholder location="classpath:qoutes.properties"/>
+
+    <bean class="my_spring.InjectRandomIntAnnotationBeanPostProcessor"/>
+    <bean class="real_spring.BeanDefinitionValidatorBeanFactoryPostProcessor"/>
 
     <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
 
@@ -21,9 +25,9 @@
         </property>
     </bean>
     <bean id="shakespearQuoter" class="real_spring.quoters.ShakespearQuoter">
-        <property name="message" value="2 B || ! 2 B"/>
+        <property name="message" value="${shake}"/>
     </bean>
-    <bean id="terminator" class="real_spring.quoters.TerminatorQuoter">
+    <bean id="terminator" class="real_spring.quoters.TerminatorQuoter" destroy-method="killAll">
         <property name="messages">
             <list>
                 <value>I'll be back</value>
