@@ -4,9 +4,10 @@ package my_spring;
  * @author Evgeny Borisov
  */
 
-@Benchmark
+
 public class MavenirServiceImpl implements MavenirService {
     @Override
+    @Benchmark
     public void doWork() {
         System.out.println("Working...");
     }
