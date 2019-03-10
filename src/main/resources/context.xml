@@ -4,36 +4,14 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <context:component-scan base-package="real_spring"/>
+    <context:component-scan base-package="
+"/>
 
     <context:property-placeholder location="classpath:qoutes.properties"/>
 
-    <bean class="my_spring.InjectRandomIntAnnotationBeanPostProcessor"/>
-    <bean class="real_spring.BeanDefinitionValidatorBeanFactoryPostProcessor"/>
 
-    <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
 
-    <bean id="s" class="java.lang.String">
-        <constructor-arg value="Come with me if you wanna live"/>
-    </bean>
-    <bean id="robot" class="real_spring.quoters.TalkingRobotImpl" >
 
-        <property name="quoters">
-            <list>
-                <ref bean="shakespearQuoter"/>
-                <ref bean="terminator"/>
-            </list>
-        </property>
-    </bean>
-    <bean id="shakespearQuoter" class="real_spring.quoters.ShakespearQuoter">
-        <property name="message" value="${shake}"/>
-    </bean>
-    <bean id="terminator" class="real_spring.quoters.TerminatorQuoter" destroy-method="killAll">
-        <property name="messages">
-            <list>
-                <value>I'll be back</value>
-                <ref bean="s"/>
-                <value>Astalavista baby</value>
-            </list>
-        </property>
-    </bean>
+
 </beans>
