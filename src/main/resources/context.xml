@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
+
+    <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
+
+    <bean id="s" class="java.lang.String">
+        <constructor-arg value="Come with me if you wanna live"/>
+    </bean>
+    <bean id="robot" class="real_spring.quoters.TalkingRobotImpl" >
+
+        <property name="quoters">
+            <list>
+                <ref bean="shakespearQuoter"/>
+                <ref bean="terminator"/>
+            </list>
+        </property>
+    </bean>
     <bean id="shakespearQuoter" class="real_spring.quoters.ShakespearQuoter">
         <property name="message" value="2 B || ! 2 B"/>
     </bean>
     <bean id="terminator" class="real_spring.quoters.TerminatorQuoter">
         <property name="messages">
             <list>
-                <!--<ref bean=""-->
                 <value>I'll be back</value>
+                <ref bean="s"/>
                 <value>Astalavista baby</value>
             </list>
         </property>

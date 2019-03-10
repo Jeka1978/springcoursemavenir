@@ -1,6 +1,7 @@
 package real_spring.quoters;
 
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -10,6 +11,8 @@ import java.util.List;
 public class TerminatorQuoter implements Quoter {
     @Setter
     private List<String> messages;
+
+
 
     @Override
     public void sayQuote() {
