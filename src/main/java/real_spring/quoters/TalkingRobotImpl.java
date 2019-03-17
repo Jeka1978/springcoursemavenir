@@ -16,7 +16,7 @@ import static java.util.Arrays.asList;
 @Component
 public class TalkingRobotImpl implements TalkingRobot {
 
-    @Film
+    @Autowired
     private List<Quoter> quoters = asList(() -> System.out.println("this is default quoter"));
 
 
